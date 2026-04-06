@@ -225,3 +225,7 @@ MANAGER_PHONE = config('MANAGER_PHONE', default='+233000000000')
 
 # Mobile Money
 MOMO_MERCHANT_ID = config('MOMO_MERCHANT_ID', default='SWIFTPOS-MERCHANT-001')
+
+# Paystack
+PAYSTACK_SECRET_KEY = config('PAYSTACK_SECRET_KEY', default='')
+PAYSTACK_PUBLIC_KEY = config('PAYSTACK_PUBLIC_KEY', default='')

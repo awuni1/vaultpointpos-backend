@@ -532,6 +532,7 @@ class CategoryRevenueReportView(APIView):
     permission_classes = [IsAuthenticated, IsAdminOrManager]
 
     def get(self, request):
+        
         start_date_str = request.query_params.get('start_date')
         end_date_str = request.query_params.get('end_date')
 

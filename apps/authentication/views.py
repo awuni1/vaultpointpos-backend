@@ -167,9 +167,9 @@ class LogoutView(APIView):
 
 
 class RegisterView(APIView):
-    """Register a new user. Admin only."""
+    """Register a new user. Public endpoint."""
 
-    permission_classes = [IsAuthenticated, IsAdmin]
+    permission_classes = [AllowAny]
 
     def post(self, request):
         serializer = RegisterSerializer(data=request.data)
@@ -178,14 +178,16 @@ class RegisterView(APIView):
 
         user = serializer.save()
 
-        log_transaction(
-            user=request.user,
-            action='user_created',
-            entity_type='user',
-            entity_id=user.user_id,
-            details={'username': user.username, 'role': user.role},
-            ip_address=get_client_ip(request),
-        )
+        # Only log audit trail if the request comes from an authenticated user
+        if request.user and request.user.is_authenticated:
+            log_transaction(
+                user=request.user,
+                action='user_created',
+                entity_type='user',
+                entity_id=user.user_id,
+                details={'username': user.username, 'role': user.role},
+                ip_address=get_client_ip(request),
+            )
 
         return Response(
             {
